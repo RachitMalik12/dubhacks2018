@@ -5,18 +5,28 @@ import myImage from './assets/2.jpg';
 import './App.css';
 
 class App extends Component {
+  constructor() {
+  super();
+  this.state = {
+    ocrText: null
+  };
+}
 
   componentDidMount() {
     Tesseract.recognize(myImage)
     .then(function(result){
-        console.log(result)
-    });
+        console.log(result.text);
+    }).then(result =>{
+      this.setState({
+        ocrText: result.text
+      })
+    })
   }
 
   render() {
     return (
       <div className="App">
-        hi
+        {this.state.ocrText}
       </div>
     );
   }
