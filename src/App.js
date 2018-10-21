@@ -4,8 +4,14 @@ import myImage from "./assets/Annotation.png";
 import Landing from "./components/landing";
 import "./App.css";
 import axios from "axios";
-import Crypto from "crypto-js"
-import urijs from "uri-js";
+import Crypto from "crypto-js";
+// import urijs from "uri-js";
+var amazon = require("amazon-product-api");
+var client = amazon.createClient({
+  awsId: "AKIAJP2NFVTWFZYRFW7A",
+  awsSecret: "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",
+  awsTag: "daranguyen-20"
+});
 
 const mainLink = "https://www.amazon.com/gp/aws/cart/add.html?";
 class App extends Component {
@@ -15,19 +21,56 @@ class App extends Component {
       link: mainLink
     };
   }
-  getASIN(item) {
-    var timestmp = new Date().toISOString();
-    var kDate = Crypto.HmacSHA256(timestmp, "AWS4" + 'WPf8GG0a0PnWQBORv2K0qHD8ok/tL1r6FciXPoKP');
-    var kRegion = Crypto.HmacSHA256('us-east-1', kDate);
-    var kService = Crypto.HmacSHA256('webservices.amazon.com'  , kRegion);
-    var kSigning = Crypto.HmacSHA256("aws4_request", kService);
 
+  getASIN() {
+    // var timestmpISO = new Date().toISOString();
+    // var timestmpISO2 = timestmpISO.split("T")[0];
+    // // .replace("-", "")
+    // // .replace("-", "")
+    // // .replace(":", "")
+    // // .replace(":", "")
+    // // .replace(".", "");
+    // console.log(timestmpISO);
+    // const AWSAccessKeyID = "AKIAJP2NFVTWFZYRFW7A";
+    // const key = "WPf8GG0a0PnWQBORv2K0qHD8ok/tL1r6FciXPoKP";
+    // var kDate = Crypto.HmacSHA256(timestmpISO2, "AWS4" + key);
+    // var kRegion = Crypto.HmacSHA256("us-east-1", kDate);
+    // var kService = Crypto.HmacSHA256("webservices.amazon.com", kRegion);
+    // var kSigning = Crypto.HmacSHA256("aws4_request", kService);
 
-
-    axios.get('http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&Operation=ItemSearch&ResponseGroup=Small&SearchIndex=All&Keywords=milk&AWSAccessKeyId=AKIAJP2NFVTWFZYRFW7A&Timestamp='+timestmp+'&Signature='+kSigning)
-      .then(res => {
-         console.log(res);
+    // axios
+    //   .get(
+    //     "http://webservices.amazon.com/onca/xml?" +
+    //       "Service=AWSECommerceService" +
+    //       "&Operation=ItemSearch" +
+    //       "&ResponseGroup=Small" +
+    //       "&SearchIndex=All" +
+    //       "&Keywords=milk" +
+    //       "&AWSAccessKeyId=" +
+    //       AWSAccessKeyID +
+    //       "&Timestamp=" +
+    //       timestmpISO +
+    //       "&Signature=" +
+    //       kSigning
+    //   )
+    //   .then(res => {
+    //     console.log(res);
+    //   });
+    // https://www.npmjs.com/package/amazon-product-api
+    client
+      .itemSearch({
+        director: "Quentin Tarantino",
+        actor: "Samuel L. Jackson",
+        searchIndex: "DVD",
+        audienceRating: "R",
+        responseGroup: "ItemAttributes,Offers,Images"
       })
+      .then(function(results) {
+        console.log(results);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
     return "";
   }
 
@@ -54,13 +97,14 @@ class App extends Component {
           });
         }
       });
+    this.getASIN();
   }
 
   render() {
     return (
       <Fragment>
         <div className="App">
-          <Landing />
+          {/* <Landing /> */}
           <p>{this.state.link}</p>
         </div>
       </Fragment>

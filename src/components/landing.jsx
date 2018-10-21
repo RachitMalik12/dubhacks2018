@@ -12,11 +12,6 @@ import {
   Grid,
   Toolbar,
   Icon,
-  Dialog,
-  DialogContentText,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   Typography
 } from "@material-ui/core";
 import { loadCSS } from "fg-loadcss/src/loadCSS";
