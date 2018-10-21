@@ -1,33 +1,54 @@
-import React, { Component } from 'react';
-import {Tesseract} from "tesseract.ts";
-import myImage from './assets/2.jpg';
+import React, { Component, Fragment } from "react";
+import { Tesseract } from "tesseract.ts";
+import myImage from "./assets/Annotation.png";
+import "./App.css";
 
-import './App.css';
-
+const mainLink = "https://www.amazon.com/gp/aws/cart/add.html?";
 class App extends Component {
   constructor() {
-  super();
-  this.state = {
-    ocrText: null
-  };
-}
+    super();
+    this.state = {
+      link: mainLink
+    };
+  }
+
+  getASIN(item) {
+    return "";
+  }
+
+  apendASIM(item, qty) {
+    if (qty === null) qty = 1;
+    let tASIN = this.getASIN(item);
+    let tstr = "&ASIN.1=" + tASIN + "&Quantity.1=" + qty;
+    return tstr;
+  }
 
   componentDidMount() {
-    Tesseract.recognize(myImage)
-    .then(function(result){
-        console.log(result.text);
-    }).then(result =>{
-      this.setState({
-        ocrText: result.text
-      })
+    Tesseract.recognize(myImage, {
+      lang: "eng",
+      tessedit_ambigs_training: 1
     })
+      .then(function(result) {
+        console.log(result);
+      })
+      .then(result => {
+        for (let index = 0; index < result.lines.length; index++) {
+          let bkLink = this.state.link;
+          bkLink += this.apendASIM(result.lines[index].text);
+          this.setState({
+            lnik: bkLink
+          });
+        }
+      });
   }
 
   render() {
     return (
-      <div className="App">
-        {this.state.ocrText}
-      </div>
+      <Fragment>
+        <div className="App">
+          <p>{this.state.ocrText}</p>
+        </div>
+      </Fragment>
     );
   }
 }
