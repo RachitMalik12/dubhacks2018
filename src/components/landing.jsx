@@ -131,7 +131,7 @@ class Album extends Component {
               <div className={classes.heroButtons}>
                 <Grid container spacing={16} justify="center">
                   <Grid item>
-                    <Button variant="contained" color="primary">
+                    <Button variant="contained" href="https://github.com/jluisfgarza/dubhacks2018" color="primary">
                       <Icon
                         className={classNames(classes.icon, "fab fa-github")}
                       />
