@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Tesseract } from "tesseract.ts";
 import myImage from "./assets/Annotation.png";
+import Landing from "./components/landing";
 import "./App.css";
 import axios from "axios";
 import Crypto from "crypto-js"
@@ -59,6 +60,7 @@ class App extends Component {
     return (
       <Fragment>
         <div className="App">
+          <Landing />
           <p>{this.state.link}</p>
         </div>
       </Fragment>
