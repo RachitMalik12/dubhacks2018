@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Tesseract } from "tesseract.ts";
 import myImage from "./assets/Annotation.png";
+import Landing from "./components/landing";
 import "./App.css";
 
 const mainLink = "https://www.amazon.com/gp/aws/cart/add.html?";
@@ -45,6 +46,7 @@ class App extends Component {
     return (
       <Fragment>
         <div className="App">
+          <Landing />
           <p>{this.state.link}</p>
         </div>
       </Fragment>
