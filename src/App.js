@@ -16,10 +16,9 @@ class App extends Component {
     return "";
   }
 
-  apendASIM(item, qty) {
-    if (qty === null) qty = 1;
+  apendASIM(item) {
     let tASIN = this.getASIN(item);
-    let tstr = "&ASIN.1=" + tASIN + "&Quantity.1=" + qty;
+    let tstr = "&ASIN.1=" + tASIN + "&Quantity.1=1";
     return tstr;
   }
 
@@ -46,7 +45,7 @@ class App extends Component {
     return (
       <Fragment>
         <div className="App">
-          <p>{this.state.ocrText}</p>
+          <p>{this.state.link}</p>
         </div>
       </Fragment>
     );
