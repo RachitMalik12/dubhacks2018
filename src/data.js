@@ -20,7 +20,7 @@ var itemsArray =  [
 		ASIN : "B0143UXN4W"
 	},
 		{
-		name : "Milk" ,
+		name : "Milk↵↵" ,
 		ASIN : "B01M6591DL"
 	},
 		{

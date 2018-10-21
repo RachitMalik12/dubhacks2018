@@ -9,7 +9,6 @@ import itemsArray from "./data.js";
 
 // import urijs from "uri-js";
 
-
 var amazon = require("amazon-product-api");
 var client = amazon.createClient({
   awsId: "AKIAJP2NFVTWFZYRFW7A",
@@ -26,29 +25,27 @@ class App extends Component {
     };
   }
 
- getAsin(item) {
-   // console.log(itemsArray);
-   for(let i = 0; i<itemsArray.length; i++) {
-     const temp = itemsArray[i].name.replace("↵↵","");
-      if(temp == item)
-        return itemsArray[i].ASIN;
-    return "NO";
-   }
+  getAsin(item) {
+    // console.log(itemsArray);
+    for (let i = 0; i < itemsArray.length; i++) {
+      // const temp = itemsArray[i].name.replace("↵↵", "");
+      if (itemsArray[i].name == item) return itemsArray[i].ASIN;
+      return "NO";
+    }
+  }
 
- };
-
-   apendASIM(item) {
+  apendASIM(item) {
     return "&ASIN.1=" + this.getAsin(item) + "&Quantity.1=1";
   }
 
   componentDidMount() {
     Tesseract.recognize(myImage, {
-        lang: "eng",
-        tessedit_ambigs_training: 1
-     })
-     .then(function(result) {
-        console.log(result.lines);
-     })
+      lang: "eng",
+      tessedit_ambigs_training: 1
+    })
+      .then(function(result) {
+        console.log(result);
+      })
       .then(result => {
         let bkLink = this.state.link;
         for (let index = 0; index < result.lines.length; index++) {
@@ -56,16 +53,15 @@ class App extends Component {
           bkLink += this.apendASIM(result.lines[index].text);
         }
         console.log(bkLink);
-    });
+      });
   }
 
   render() {
     return (
       <Fragment>
         <div className="App">
-          { <Landing /> }
-          <p>{this.state.link}</p>
-        </div>
+          {<Landing />} <p> {this.state.link} </p>{" "}
+        </div>{" "}
       </Fragment>
     );
   }
