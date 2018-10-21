@@ -3,6 +3,9 @@ import { Tesseract } from "tesseract.ts";
 import myImage from "./assets/Annotation.png";
 import Landing from "./components/landing";
 import "./App.css";
+import axios from "axios";
+import Crypto from "crypto-js"
+import urijs from "uri-js";
 
 const mainLink = "https://www.amazon.com/gp/aws/cart/add.html?";
 class App extends Component {
@@ -12,8 +15,19 @@ class App extends Component {
       link: mainLink
     };
   }
-
   getASIN(item) {
+    var timestmp = new Date().toISOString();
+    var kDate = Crypto.HmacSHA256(timestmp, "AWS4" + 'WPf8GG0a0PnWQBORv2K0qHD8ok/tL1r6FciXPoKP');
+    var kRegion = Crypto.HmacSHA256('us-east-1', kDate);
+    var kService = Crypto.HmacSHA256('webservices.amazon.com'  , kRegion);
+    var kSigning = Crypto.HmacSHA256("aws4_request", kService);
+
+
+
+    axios.get('http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&Operation=ItemSearch&ResponseGroup=Small&SearchIndex=All&Keywords=milk&AWSAccessKeyId=AKIAJP2NFVTWFZYRFW7A&Timestamp='+timestmp+'&Signature='+kSigning)
+      .then(res => {
+         console.log(res);
+      })
     return "";
   }
 
